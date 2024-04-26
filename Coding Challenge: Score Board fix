@@ -1,0 +1,192 @@
+1	1		const routes: Routes = [
+2	2		  {
+3	3		    path: 'administration',
+4	4		    component: AdministrationComponent,
+5	5		    canActivate: [AdminGuard]
+6	6		  },
+7	7		  {
+8	8		    path: 'accounting',
+9	9		    component: AccountingComponent,
+10	10		    canActivate: [AccountingGuard]
+11	11		  },
+12	12		  {
+13	13		    path: 'about',
+14	14		    component: AboutComponent
+15	15		  },
+16	16		  {
+17	17		    path: 'address/select',
+18	18		    component: AddressSelectComponent,
+19	19		    canActivate: [LoginGuard]
+20	20		  },
+21	21		  {
+22	22		    path: 'address/saved',
+23	23		    component: SavedAddressComponent,
+24	24		    canActivate: [LoginGuard]
+25	25		  },
+26	26		  {
+27	27		    path: 'address/create',
+28	28		    component: AddressCreateComponent,
+29	29		    canActivate: [LoginGuard]
+30	30		  },
+31	31		  {
+32	32		    path: 'address/edit/:addressId',
+33	33		    component: AddressCreateComponent,
+34	34		    canActivate: [LoginGuard]
+35	35		  },
+36	36		  {
+37	37		    path: 'delivery-method',
+38	38		    component: DeliveryMethodComponent
+39	39		  },
+40	40		  {
+41	41		    path: 'deluxe-membership',
+42	42		    component: DeluxeUserComponent,
+43	43		    canActivate: [LoginGuard]
+44	44		  },
+45	45		  {
+46	46		    path: 'saved-payment-methods',
+47	47		    component: SavedPaymentMethodsComponent
+48	48		  },
+49	49		  {
+50	50		    path: 'basket',
+51	51		    component: BasketComponent
+52	52		  },
+53	53		  {
+54	54		    path: 'order-completion/:id',
+55	55		    component: OrderCompletionComponent
+56	56		  },
+57	57		  {
+58	58		    path: 'contact',
+59	59		    component: ContactComponent
+60	60		  },
+61	61		  {
+62	62		    path: 'photo-wall',
+63	63		    component: PhotoWallComponent
+64	64		  },
+65	65		  {
+66	66		    path: 'complain',
+67	67		    component: ComplaintComponent
+68	68		  },
+69	69		  {
+70	70		    path: 'chatbot',
+71	71		    component: ChatbotComponent
+72	72		  },
+73	73		  {
+74	74		    path: 'order-summary',
+75	75		    component: OrderSummaryComponent
+76	76		  },
+77	77		  {
+78	78		    path: 'order-history',
+79	79		    component: OrderHistoryComponent
+80	80		  },
+81	81		  {
+82	82		    path: 'payment/:entity',
+83	83		    component: PaymentComponent
+84	84		  },
+85	85		  {
+86	86		    path: 'wallet',
+87	87		    component: WalletComponent
+88	88		  },
+89	89		  {
+90	90		    path: 'login',
+91	91		    component: LoginComponent
+92	92		  },
+93	93		  {
+94	94		    path: 'forgot-password',
+95	95		    component: ForgotPasswordComponent
+96	96		  },
+97	97		  {
+98	98		    path: 'recycle',
+99	99		    component: RecycleComponent
+100	100		  },
+101	101		  {
+102	102		    path: 'register',
+103	103		    component: RegisterComponent
+104	104		  },
+105	105		  {
+106	106		    path: 'search',
+107	107		    component: SearchResultComponent
+108	108		  },
+109	109		  {
+110	110		    path: 'hacking-instructor',
+111	111		    component: SearchResultComponent
+112	112		  },
+113	113		  {
+114		-	    path: 'score-board',
+114	+	    path: atob('c2NvcmUtYm9hcmQ='),
+115	115		    component: ScoreBoardComponent
+116	116		  },
+117	117		  {
+118	118		    path: 'track-result',
+119	119		    component: TrackResultComponent
+120	120		  },
+121	121		  {
+122	122		    path: 'track-result/new',
+123	123		    component: TrackResultComponent,
+124	124		    data: {
+125	125		      type: 'new'
+126	126		    }
+127	127		  },
+128	128		  {
+129	129		    path: '2fa/enter',
+130	130		    component: TwoFactorAuthEnterComponent
+131	131		  },
+132	132		  {
+133	133		    path: 'privacy-security',
+134	134		    component: PrivacySecurityComponent,
+135	135		    children: [
+136	136		      {
+137	137		        path: 'privacy-policy',
+138	138		        component: PrivacyPolicyComponent
+139	139		      },
+140	140		      {
+141	141		        path: 'change-password',
+142	142		        component: ChangePasswordComponent
+143	143		      },
+144	144		      {
+145	145		        path: 'two-factor-authentication',
+146	146		        component: TwoFactorAuthComponent
+147	147		      },
+148	148		      {
+149	149		        path: 'data-export',
+150	150		        component: DataExportComponent
+151	151		      },
+152	152		      {
+153	153		        path: 'last-login-ip',
+154	154		        component: LastLoginIpComponent
+155	155		      }
+156	156		    ]
+157	157		  },
+158	158		  {
+159	159		    path: 'juicy-nft',
+160	160		    component: NFTUnlockComponent
+161	161		  },
+162	162		  {
+163	163		    path: 'wallet-web3',
+164	164		    loadChildren: async () => await loadWeb3WalletModule()
+165	165		  },
+166	166		  {
+167	167		    path: 'web3-sandbox',
+168	168		    loadChildren: async () => await loadWeb3SandboxtModule()
+169	169		  },
+170	170		  {
+171	171		    path: 'bee-haven',
+172	172		    loadChildren: async () => await loadFaucetModule()
+173	173		  },
+174	174		   {
+175	175		    matcher: oauthMatcher,
+176	176		    data: { params: (window.location.href).substr(window.location.href.indexOf('#')) },
+177	177		    component: OAuthComponent
+178	178		  },
+179	179		  {
+180	180		    matcher: tokenMatcher,
+181	181		    component: TokenSaleComponent
+182	182		  },
+183	183		  {
+184	184		    path: '403',
+185	185		    component: ErrorPageComponent
+186	186		  },
+187	187		  {
+188	188		    path: '**',
+189	189		    component: SearchResultComponent
+190	190		  }
+191	191		]
