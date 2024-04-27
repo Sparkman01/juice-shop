@@ -1,0 +1,12 @@
+	const routes: Routes = [
+2	2		  {
+3	3		    path: 'administration',
+4	4		    component: AdministrationComponent,
+5		-	    canActivate: [AdminGuard]
+5	+	    canActivate: [LoginGuard]
+6	6		  },
+7	7		  {
+8	8		    path: 'accounting',
+9	9		    component: AccountingComponent,
+10	10		    canActivate: [AccountingGuard]
+11	11		  },
