@@ -1,0 +1,18 @@
+1		-	/* /ftp directory browsing and file download */
+2		-	  app.use('/ftp', serveIndexMiddleware, serveIndex('ftp', { icons: true }))
+3		-	  app.use('/ftp(?!/quarantine)/:file', fileServer())
+4		-	  app.use('/ftp/quarantine/:file', quarantineServer())
+5		-	
+6	1		  /* /encryptionkeys directory browsing */
+7	2		  app.use('/encryptionkeys', serveIndexMiddleware, serveIndex('encryptionkeys', { icons: true, view: 'details' }))
+8	3		  app.use('/encryptionkeys/:file', keyServer())
+9	4		
+10	5		  /* /logs directory browsing */
+11	6		  app.use('/support/logs', serveIndexMiddleware, serveIndex('logs', { icons: true, view: 'details' }))
+12	7		  app.use('/support/logs/:file', logFileServer())
+13	8		
+14	9		  /* Swagger documentation for B2B v2 endpoints */
+15	10		  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+16	11		
+17	12		  app.use(express.static(path.resolve('frontend/dist/frontend')))
+18	13		  app.use(cookieParser('kekse'))
