@@ -1,0 +1,43 @@
+	+	import {BasketModel} from "../../../models/basket";
+2	+	
+1	3		module.exports = function login () {
+2	4		  function afterLogin (user: { data: User, bid: number }, res: Response, next: NextFunction) {
+3	5		    BasketModel.findOrCreate({ where: { UserId: user.data.id } })
+4	6		      .then(([basket]: [BasketModel, boolean]) => {
+5	7		        const token = security.authorize(user)
+6	8		        user.bid = basket.id // keep track of original basket
+7	9		        security.authenticatedUsers.put(token, user)
+8	10		        res.json({ authentication: { token, bid: basket.id, umail: user.data.email } })
+9	11		      }).catch((error: Error) => {
+10	12		        next(error)
+11	13		      })
+12	14		  }
+13	15		
+14	16		  return (req: Request, res: Response, next: NextFunction) => {
+15		-	    models.sequelize.query(`SELECT * FROM Users WHERE email = '${req.body.email || ''}' AND password = '${security.hash(req.body.password || '')}' AND deletedAt IS NULL`, { model: UserModel, plain: true })
+17	+	    models.sequelize.query(`SELECT * FROM Users WHERE email = $1 AND password = $2 AND deletedAt IS NULL`,
+18	+	      { bind: [ req.body.email, security.hash(req.body.password) ], model: models.User, plain: true })
+16	19		      .then((authenticatedUser: { data: User }) => {
+17	20		        const user = utils.queryResultToJson(authenticatedUser)
+18	21		        if (user.data?.id && user.data.totpSecret !== '') {
+19	22		          res.status(401).json({
+20	23		            status: 'totp_token_required',
+21	24		            data: {
+22	25		              tmpToken: security.authorize({
+23	26		                userId: user.data.id,
+24	27		                type: 'password_valid_needs_second_factor_token'
+25	28		              })
+26	29		            }
+27	30		          })
+28	31		        } else if (user.data?.id) {
+29	32		          afterLogin(user, res, next)
+30	33		        } else {
+31	34		          res.status(401).send(res.__('Invalid email or password.'))
+32	35		        }
+33	36		      }).catch((error: Error) => {
+34	37		        next(error)
+35	38		      })
+36	39		  }
+
+Fix 1
+Correct Fix
