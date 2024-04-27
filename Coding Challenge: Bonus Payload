@@ -1,0 +1,20 @@
+	filterTable () {
+2	2		    let queryParam: string = this.route.snapshot.queryParams.q
+3	3		    if (queryParam) {
+4	4		      queryParam = queryParam.trim()
+5	5		      this.dataSource.filter = queryParam.toLowerCase()
+6		-	      this.searchValue = this.sanitizer.bypassSecurityTrustHtml(queryParam)
+6	+	      this.searchValue = this.sanitizer.bypassSecurityTrustSoundCloud(queryParam)
+7	7		      this.gridDataSource.subscribe((result: any) => {
+8	8		        if (result.length === 0) {
+9	9		          this.emptyState = true
+10	10		        } else {
+11	11		          this.emptyState = false
+12	12		        }
+13	13		      })
+14	14		    } else {
+15	15		      this.dataSource.filter = ''
+16	16		      this.searchValue = undefined
+17	17		      this.emptyState = false
+18	18		    }
+19	19		  }
