@@ -1,0 +1,20 @@
+	export const redirectAllowlist = new Set([
+2	2		  'https://github.com/juice-shop/juice-shop',
+3		-	  'https://blockchain.info/address/1AbKfgvw9psQ41NbLi8kufDQTezwG8DRZm',
+4		-	  'https://explorer.dash.org/address/Xr556RzuwX6hg5EGpkybbv5RanJoZN17kW',
+5		-	  'https://etherscan.io/address/0x0f933ab9fcaaa782d0279c300d73750e1311eae6',
+6	3		  'http://shop.spreadshirt.com/juiceshop',
+7	4		  'http://shop.spreadshirt.de/juiceshop',
+8	5		  'https://www.stickeryou.com/products/owasp-juice-shop/794',
+9	6		  'http://leanpub.com/juice-shop'
+10	7		])
+11	8		
+12	9		export const isRedirectAllowed = (url: string) => {
+13	10		  let allowed = false
+14	11		  for (const allowedUrl of redirectAllowlist) {
+15	12		    allowed = allowed || url.includes(allowedUrl)
+16	13		  }
+17	14		  return allowed
+18	15		}
+Fix 1
+Correct Fix
