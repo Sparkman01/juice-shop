@@ -1,0 +1,45 @@
+	/* Serve metrics */
+2		-	let metricsUpdateLoop: any
+3	2		const Metrics = metrics.observeMetrics()
+4	3		app.get('/metrics', metrics.serveMetrics())
+5	4		errorhandler.title = `${config.get('application.name')} (Express ${utils.version('express')})`
+6	5		
+7	6		const registerWebsocketEvents = require('./lib/startup/registerWebsocketEvents')
+8	7		const customizeApplication = require('./lib/startup/customizeApplication')
+9	8		
+10	9		export async function start (readyCallback: any) {
+11	10		  const datacreatorEnd = startupGauge.startTimer({ task: 'datacreator' })
+12	11		  await sequelize.sync({ force: true })
+13	12		  await datacreator()
+14	13		  datacreatorEnd()
+15	14		  const port = process.env.PORT ?? config.get('server.port')
+16	15		  process.env.BASE_PATH = process.env.BASE_PATH ?? config.get('server.basePath')
+17	16		
+18		-	  metricsUpdateLoop = Metrics.updateLoop()
+19		-	
+20	17		  server.listen(port, () => {
+21	18		    logger.info(colors.cyan(`Server listening on port ${colors.bold(`${port}`)}`))
+22	19		    startupGauge.set({ task: 'ready' }, (Date.now() - startTime) / 1000)
+23	20		    if (process.env.BASE_PATH !== '') {
+24	21		      logger.info(colors.cyan(`Server using proxy base path ${colors.bold(`${process.env.BASE_PATH}`)} for redirects`))
+25	22		    }
+26	23		    registerWebsocketEvents(server)
+27	24		    if (readyCallback) {
+28	25		      readyCallback()
+29	26		    }
+30	27		  })
+31	28		
+32	29		}
+33	30		
+34	31		export function close (exitCode: number | undefined) {
+35	32		  if (server) {
+36		-	    clearInterval(metricsUpdateLoop)
+37	33		    server.close()
+38	34		  }
+39	35		  if (exitCode !== undefined) {
+40	36		    process.exit(exitCode)
+41	37		  }
+42	38		}
+
+Fix 1
+Correct Fix
